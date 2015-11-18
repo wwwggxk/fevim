@@ -7,5 +7,23 @@
 - 基本设置
 
 - 插件管理(使用Vundle)
+  * nerdtree
+  * nerdcommenter
+  * tagbar
+  * ctrlp
+  * syntastic
+  * dash.vime
+  * emmet-vim
+  * vim-surround
+  * supertab
+  * vim-airline
+  * vim-abolish
+  * tabular
+  * youcompleteme
+  * vim-gitgutter
+  * vim-less
+  * scss-syntax.vime
+  * vim-instant-markdown
+  * 等
 
 - 插件设置

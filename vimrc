@@ -9,6 +9,11 @@ nmap <Leader>j <C-w>j
 nmap <Leader>k <C-w>k
 nmap <Leader>l <C-w>l
 
+" 当前行下加入新行然后回到normal模式
+"nmap oo o<ESC>k
+" 当前行上加入新行然后回到normal模式
+"nmap OO O<ESC>j
+
 " w!!不退出文件以root权限保存文件
 cmap w!! w !sudo tee % >/dev/null
 
@@ -18,7 +23,21 @@ vmap ,y "+y
 " 剪贴板粘贴到vim
 vmap ,p "+p
 
+" 执行最后一个命令
+nnoremap :: @:
+
+" 切换到当前操作文件目录
+nnoremap ,g :cd %:p:h <CR>
+
+nnoremap <Leader><Leader>s :!open -a safari %<CR><CR>
+nnoremap <Leader><Leader>o :!open -a opera %<CR><CR>
+nnoremap <Leader><Leader>f :!open -a firefox %<CR><CR>
+nnoremap <Leader><Leader>g :!open -a google\ chrome %<CR><CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""基本设置 
+" 设置新建html模版
+autocmd BufNewFile  *.html   0r ~/.vim/templates/skeleton.html
+
 " 显示行号
 set nu
 
@@ -31,8 +50,12 @@ set listchars=tab:>\ ,trail:$
 
 " 自动换行
 set wrap
-set textwidth=79
-set colorcolumn=85
+set textwidth=80
+set colorcolumn=+1
+
+" 超过80个字符背景变为红色
+highlight OverLength ctermbg=red ctermfg=white guibg=#500000
+match OverLength /\%81v.\+/
 
 " 不使用swap临时文件，全部放到内存中，如果文件太大最好使用wap文件
 set noswapfile
@@ -116,11 +139,82 @@ filetype on
 set nocompatible
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""插件配置 
+" tabular
+"if exists(":Tabularize")
+  "nmap <Leader>a= :Tabularize/=<CR>
+  "vmap <Leader>a= :Tabularize/=<CR>
+  "nmap <Leader>a: :Tabularize/:\zs<CR>
+  "vmap <Leader>a: :Tabularize/:\zs<CR>
+"endif
+if exists(":Tabularize")
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:\zs<CR>
+    vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+
+" ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" tagbar
+nmap <Leader><Leader>t :TagbarToggle<CR>
+
+" tagbar css
+let g:tagbar_type_css = {
+    \ 'ctagstype' : 'Css',
+    \ 'kinds'     : [
+    \ 'c:classes',
+    \ 's:selectors',
+    \ 'i:identities'
+    \ ]
+\ }
+" javascript-libraries-syntax
+let g:used_javascript_libs = 'underscore,backbone,jquery,angularjs,angularui,requirejs'
+
+" jshint
+let g:JSHintHighlightErrorLine = 0
+
+" vim-instant-markdown
+"let g:instant_markdown_slow=1
+"let g:instant_markdown_autostart=0
+
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
+
+" tasklist
+let g:T_AUTHOR = "wq"
+let g:T_AUTHOR_EMAIL = "wq@tigerbrokers.com"
+let g:T_DATE_FORMAT = "%c"
+
+nnoremap <C-j> /<+.\{-1,}+><CR>c/+>/e<CR>
+inoremap <C-j> <ESC>/<+.\{-1,}+><CR>c/+>/e<CR>
 
 " NERDTree
 "设置NERDTree 边框栏大小
+"let g:NERDTreeWinPos="right"
 let g:NERDTreeWinSize = 40
-map <C-n> :NERDTreeToggle<CR>
+"map <C-n> :NERDTreeToggle<CR>
+map <Leader><Leader>n :NERDTreeToggle<CR>
  "在Visual和Normal模式下有效
 set mouse=nv
 
@@ -145,7 +239,12 @@ autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 
 " ctrlp
+let g:ctrlp_map='<Leader><Leader>p'
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc$',
+    \ 'file': '\.exe$\|\.so$\|\.dat$'
+    \ }
 
 " vim-node
 set runtimepath^=~/.vim/bundle/node
@@ -155,7 +254,8 @@ autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
 let b:javascript_fold=1
 let javascript_enable_domhtmlcss=1
 
-" indent-guides
+" vim-indent-guides
+" <Leader>ig
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=240
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=8
@@ -177,6 +277,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=8
 let g:pymode_rope = 1
 let g:pymode_rope_autoimport = 0
 let g:pymode_rope_lookup_project = 0
+let g:pymode_rope_complete_on_dot = 0
 
 " Documentation
 let g:pymode_doc = 1
@@ -266,13 +367,12 @@ Plugin 'jsbeautify'
 Plugin 'Mark'
 Plugin 'matrix.vim'
 Plugin 'mru.vim'
-Plugin 'The-NERD-Commenter'
 Plugin 'restart.vim'
 Plugin 'taglist.vim'
 Plugin 'ZenCoding.vim'
 Plugin 'css_color.vim'
 
-Plugin 'hallettj/jslint.vim'
+Plugin 'wookiehangover/jshint.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'nono/jquery.vim'
@@ -284,24 +384,62 @@ Plugin 'garbas/vim-snipmate'
 " Optional:
 Plugin 'honza/vim-snippets'
 
-" only necessary if your Vim version < 7.4
-Plugin 'JulesWang/css.vim'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'moll/vim-node'
 Plugin 'digitaltoad/vim-jade.git'
 Plugin 'https://github.com/nathanaelkane/vim-indent-guides'
 
 " 常用
+" 状态栏
 Plugin 'bling/vim-airline'
-Plugin 'The-NERD-tree'
-Plugin 'https://github.com/ervandew/supertab'
+" vim目录导航
+"Plugin 'The-NERD-tree'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+" tab自动被全
+Plugin 'ervandew/supertab'
+" 加、减代码引用'/"/[]/{}/<tab>
 Plugin 'git://github.com/tpope/vim-surround.git'
+" 快速代码编写
 Plugin 'http://github.com/mattn/emmet-vim.git'
+" 文件查找
 Plugin 'ctrlpvim/ctrlp.vim'
 
+" dash文档查看
+Plugin 'rizzatti/dash.vim'
+" 语法提示
+Plugin 'scrooloose/syntastic'
+Plugin 'majutsushi/tagbar'
+" markdown浏览器实时预览(需要node包)
+Plugin 'suan/vim-instant-markdown'
+" markdown高亮
+Plugin 'tpope/vim-markdown'
+" node
+Plugin 'moll/vim-node'
+
+" only necessary if your Vim version < 7.4
+Plugin 'JulesWang/css.vim'
+" sass语法高亮
+Plugin 'cakebaker/scss-syntax.vim'
+" less语法高亮
+Plugin 'groenewege/vim-less'
+
+Plugin 'burnettk/vim-angular'
+" js库语法高亮
+Plugin 'othree/javascript-libraries-syntax.vim'
+" 在行前显示删减行标识
+Plugin 'airblade/vim-gitgutter'
+" 自动补全
+Plugin 'Valloric/YouCompleteMe'
+" 自动对齐
+Plugin 'godlygeek/tabular'
+" js编辑支持
+Plugin 'ternjs/tern_for_vim'
+" ack搜索工具
+Plugin 'mileszs/ack.vim'
+" 格式转换snake_case/Mixed_case/camelCase
+Plugin 'tpope/vim-abolish'
 
 call vundle#end()
-filetype plugin indent on    " required
+"filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
-"filetype off                  " required
+filetype plugin on
+filetype off                  " required
