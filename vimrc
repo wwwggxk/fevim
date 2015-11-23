@@ -34,6 +34,9 @@ nnoremap <Leader><Leader>o :!open -a opera %<CR><CR>
 nnoremap <Leader><Leader>f :!open -a firefox %<CR><CR>
 nnoremap <Leader><Leader>g :!open -a google\ chrome %<CR><CR>
 
+" 粘贴模式，粘贴时不自动indent
+nmap <silent> <leader>p :set paste<CR>"*p:set nopaste<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""基本设置 
 " 设置新建html模版
 autocmd BufNewFile  *.html   0r ~/.vim/templates/skeleton.html
@@ -184,7 +187,7 @@ let g:tagbar_type_css = {
 let g:used_javascript_libs = 'underscore,backbone,jquery,angularjs,angularui,requirejs'
 
 " jshint
-let g:JSHintHighlightErrorLine = 0
+"let g:JSHintHighlightErrorLine = 0
 
 " vim-instant-markdown
 "let g:instant_markdown_slow=1
@@ -372,7 +375,7 @@ Plugin 'taglist.vim'
 Plugin 'ZenCoding.vim'
 Plugin 'css_color.vim'
 
-Plugin 'wookiehangover/jshint.vim'
+"Plugin 'wookiehangover/jshint.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'nono/jquery.vim'
