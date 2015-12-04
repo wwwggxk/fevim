@@ -1,5 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""设置快捷键 
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""设置快捷键
 let mapleader=","
 
 "map <Leader>n <Esc>:tabnew<CR>
@@ -27,17 +26,30 @@ vmap ,p "+p
 nnoremap :: @:
 
 " 切换到当前操作文件目录
-nnoremap ,g :cd %:p:h <CR>
+nnoremap <Leader><Leader>g :cd %:p:h <CR>
+
+" 上下页
+nnoremap <Leader><Leader>k <C-b>
+nnoremap <Leader><Leader>j <C-f>
+
+" 上下半屏
+nnoremap <Leader><Leader>e <C-e>
+nnoremap <Leader><Leader>y <C-y>
+
+" 上下移动
+nnoremap <Leader><Leader>e <C-e>
+nnoremap <Leader><Leader>y <C-y>
 
 nnoremap <Leader><Leader>s :!open -a safari %<CR><CR>
 nnoremap <Leader><Leader>o :!open -a opera %<CR><CR>
 nnoremap <Leader><Leader>f :!open -a firefox %<CR><CR>
-nnoremap <Leader><Leader>g :!open -a google\ chrome %<CR><CR>
+nnoremap <Leader><Leader>c :!open -a google\ chrome %<CR><CR>
 
 " 粘贴模式，粘贴时不自动indent
 nmap <silent> <leader>p :set paste<CR>"*p:set nopaste<CR>
+"set pastetoggle=<F2>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""基本设置 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""基本设置
 " 设置新建html模版
 autocmd BufNewFile  *.html   0r ~/.vim/templates/skeleton.html
 
@@ -53,6 +65,8 @@ set listchars=tab:>\ ,trail:$
 
 " 自动换行
 set wrap
+" 折行使单词连续
+set linebreak
 set textwidth=80
 set colorcolumn=+1
 
@@ -141,7 +155,20 @@ filetype on
 " 如果./.vimrc存在，nocompatible是默认开启的
 set nocompatible
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""插件配置 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""插件配置
+" nerdtree-git-plugin
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "!",
+    \ "Staged"    : "★",
+    \ "Untracked" : "☆",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "❊",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
 " tabular
 "if exists(":Tabularize")
   "nmap <Leader>a= :Tabularize/=<CR>
@@ -184,7 +211,7 @@ let g:tagbar_type_css = {
     \ ]
 \ }
 " javascript-libraries-syntax
-let g:used_javascript_libs = 'underscore,backbone,jquery,angularjs,angularui,requirejs'
+let g:used_javascript_libs = 'underscore,jquery,angularjs,angularui,requirejs'
 
 " jshint
 "let g:JSHintHighlightErrorLine = 0
@@ -308,7 +335,7 @@ let g:pymode_syntax_space_errors = g:pymode_syntax_all
 " Don't autofold code
 let g:pymode_folding = 0
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""Vundle插件 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""Vundle插件
 " 安装vundle
 "git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
@@ -388,14 +415,16 @@ Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 
 Plugin 'digitaltoad/vim-jade.git'
-Plugin 'https://github.com/nathanaelkane/vim-indent-guides'
+Plugin 'nathanaelkane/vim-indent-guides'
 
-" 常用
+" 平时常用
 " 状态栏
 Plugin 'bling/vim-airline'
 " vim目录导航
 "Plugin 'The-NERD-tree'
 Plugin 'scrooloose/nerdtree'
+" nerdtree git status
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'scrooloose/nerdcommenter'
 " tab自动被全
 Plugin 'ervandew/supertab'
@@ -405,7 +434,6 @@ Plugin 'git://github.com/tpope/vim-surround.git'
 Plugin 'http://github.com/mattn/emmet-vim.git'
 " 文件查找
 Plugin 'ctrlpvim/ctrlp.vim'
-
 " dash文档查看
 Plugin 'rizzatti/dash.vim'
 " 语法提示
@@ -417,14 +445,13 @@ Plugin 'suan/vim-instant-markdown'
 Plugin 'tpope/vim-markdown'
 " node
 Plugin 'moll/vim-node'
-
 " only necessary if your Vim version < 7.4
 Plugin 'JulesWang/css.vim'
 " sass语法高亮
 Plugin 'cakebaker/scss-syntax.vim'
 " less语法高亮
 Plugin 'groenewege/vim-less'
-
+" angular语法高亮
 Plugin 'burnettk/vim-angular'
 " js库语法高亮
 Plugin 'othree/javascript-libraries-syntax.vim'
