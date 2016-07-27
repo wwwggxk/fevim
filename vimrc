@@ -1,3 +1,15 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""安装配置
+" 1.安装vundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+" 2.下载配置文件
+" git clone https://github.com/wungqiang/vimer.git
+" mv ./vimer/vimrc ~/.vimrc && rm -rf ./vimer
+
+" 3.安装
+" 进入vim
+" 运行命令:PluginInstall
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""设置快捷键
 let mapleader=","
 
