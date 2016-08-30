@@ -1,4 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""安装配置
+" repo: https://github.com/wungqiang/vimer.git
+"
 " 1.安装vundle
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
@@ -6,7 +8,7 @@
 " git clone https://github.com/wungqiang/vimer.git
 " mv ./vimer/vimrc ~/.vimrc && rm -rf ./vimer
 
-" 3.安装
+" 3.安装插件
 " 进入vim
 " 运行命令:PluginInstall
 
@@ -39,6 +41,8 @@ nnoremap :: @:
 
 " 切换到当前操作文件目录
 nnoremap <Leader><Leader>g :cd %:p:h <CR>
+
+nnoremap <Leader><Leader>q :wqa<CR>
 
 " 上下页
 nnoremap <Leader><Leader>k <C-b>
@@ -101,6 +105,9 @@ set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 " html 自动折叠
 autocmd FileType html set foldmethod=indent
 
+"当打开vim且没有文件时自动打开NERDTree
+autocmd vimenter * if !argc() | NERDTree | endif
+
 " 适用7.3+: 设置undofile目录, 建议不使用,
 " 就让在默认当前目录下，不然会堆积undo目录大小
 " 要手动删除,如果记了会占用很大空间
@@ -129,6 +136,7 @@ set showmatch
 set autoread
 
 " 缩进设置
+" 4个空格代替tab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -167,7 +175,70 @@ filetype on
 " 如果./.vimrc存在，nocompatible是默认开启的
 set nocompatible
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""新文件标题
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
+""定义函数SetTitle，自动插入文件头 
+func SetTitle() 
+    "如果文件类型为.sh文件 
+    if &filetype == 'sh'
+        call setline(1,"\#!/bin/bash")
+        call append(line("."), "")
+    elseif &filetype == 'python'
+        call setline(1,"#!/usr/bin/env python")
+        call append(line("."),"# coding=utf-8")
+        call append(line(".")+1, "")
+
+    elseif &filetype == 'ruby'
+        call setline(1,"#!/usr/bin/env ruby")
+        call append(line("."),"# encoding: utf-8")
+        call append(line(".")+1, "")
+
+"    elseif &filetype == 'mkd'
+"        call setline(1,"<head><meta charset=\"UTF-8\"></head>")
+    else
+        call setline(1, "/*************************************************************************") 
+        call append(line("."), "	> File Name: ".expand("%"))
+        call append(line(".")+1, "	> Author: ")
+        call append(line(".")+2, "	> Mail: ")
+        call append(line(".")+3, "	> Created Time: ".strftime("%c"))
+        call append(line(".")+4, " ************************************************************************/") 
+        call append(line(".")+5, "")
+    endif
+    if expand("%:e") == 'cpp'
+        call append(line(".")+6, "#include<iostream>")
+        call append(line(".")+7, "using namespace std;")
+        call append(line(".")+8, "")
+    endif
+    if &filetype == 'c'
+        call append(line(".")+6, "#include<stdio.h>")
+        call append(line(".")+7, "")
+    endif
+    if expand("%:e") == 'h'
+        call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
+        call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
+        call append(line(".")+8, "#endif")
+    endif
+    if &filetype == 'java'
+        call append(line(".")+6,"public class ".expand("%:r"))
+        call append(line(".")+7,"")
+    endif
+    "新建文件后，自动定位到文件末尾
+endfunc
+autocmd BufNewFile * normal G
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""插件配置
+" YouCompleteMe and UltiSnips compatibility, with the helper of supertab
+" (via http://stackoverflow.com/a/22253548/1626737)
+let g:SuperTabDefaultCompletionType    = '<C-n>'
+let g:SuperTabCrMapping                = 0
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
+let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+" JsDoc
+nmap <silent> <Leader><Leader>d <Plug>(jsdoc)
+
 " nerdtree-git-plugin
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "!",
@@ -242,6 +313,11 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
+
+" syntastic-react
+"let g:syntastic_javascript_checkers = ['jsxhint']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
 
 " tasklist
 let g:T_AUTHOR = "wq"
@@ -348,6 +424,16 @@ let g:pymode_syntax_space_errors = g:pymode_syntax_all
 let g:pymode_folding = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""Vundle插件
+" eslint
+" npm install -g eslint
+" npm install -g babel-eslint
+" npm install -g eslint-plugin-react
+
+" syntastic-react
+" npm install -g syntastic-react
+" npm install -g jshint
+" npm install -g react-tools
+
 " 安装vundle
 "git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
@@ -379,55 +465,56 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'L9'
 
 " Syntax
-Plugin 'asciidoc.vim'
-Plugin 'confluencewiki.vim'
-Plugin 'othree/html5.vim'
-Plugin 'JavaScript-syntax'
-Plugin 'moin.vim'
-Plugin 'python.vim--Vasiliev'
-Plugin 'xml.vim'
+" Plugin 'asciidoc.vim'
+" Plugin 'confluencewiki.vim'
+" Plugin 'othree/html5.vim'
+" Plugin 'JavaScript-syntax'
+" Plugin 'moin.vim'
+" Plugin 'python.vim--Vasiliev'
+" Plugin 'xml.vim'
 
 " Color
-Plugin 'desert256.vim'
-Plugin 'Impact'
-Plugin 'vibrantink'
-Plugin 'vividchalk.vim'
+" Plugin 'desert256.vim'
+" Plugin 'Impact'
+" Plugin 'vibrantink'
+" Plugin 'vividchalk.vim'
 
 " python
 Bundle 'klen/python-mode'
 Plugin 'python_fold'
 
-Plugin 'IndentAnything'
-Plugin 'Javascript-Indentation'
-Plugin 'mako.vim--Torborg'
-Plugin 'gg/python.vim'
-Plugin 'AutoClose--Alves'
-Plugin 'auto_mkdir'
-Plugin 'cecutil'
-Plugin 'FencView.vim'
-Plugin 'jsbeautify'
-Plugin 'Mark'
-Plugin 'matrix.vim'
-Plugin 'mru.vim'
-Plugin 'restart.vim'
-Plugin 'taglist.vim'
-Plugin 'ZenCoding.vim'
-Plugin 'css_color.vim'
+" Plugin 'IndentAnything'
+" Plugin 'Javascript-Indentation'
+" Plugin 'mako.vim--Torborg'
+" Plugin 'gg/python.vim'
+" Plugin 'AutoClose--Alves'
+" Plugin 'auto_mkdir'
+" Plugin 'cecutil'
+" Plugin 'FencView.vim'
+" Plugin 'jsbeautify'
+" Plugin 'Mark'
+" Plugin 'matrix.vim'
+" Plugin 'mru.vim'
+" Plugin 'restart.vim'
+ Plugin 'taglist.vim'
+" Plugin 'ZenCoding.vim'
+" Plugin 'css_color.vim'
 
-"Plugin 'wookiehangover/jshint.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'nono/jquery.vim'
+" Plugin 'wookiehangover/jshint.vim'
+" Plugin 'pangloss/vim-javascript'
+ Plugin 'maksimr/vim-jsbeautify'
+" Plugin 'nono/jquery.vim'
 
 " SnipMate
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
-" Optional:
+
+" 快速代码片段:
 Plugin 'honza/vim-snippets'
 
-Plugin 'digitaltoad/vim-jade.git'
-Plugin 'nathanaelkane/vim-indent-guides'
+" Plugin 'digitaltoad/vim-jade.git'
+" Plugin 'nathanaelkane/vim-indent-guides'
 
 " 平时常用
 " 状态栏
@@ -442,6 +529,8 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'ervandew/supertab'
 " 加、减代码引用'/"/[]/{}/<tab>
 Plugin 'git://github.com/tpope/vim-surround.git'
+" 快速定位
+Plugin 'easymotion/vim-easymotion'
 " 快速代码编写
 Plugin 'http://github.com/mattn/emmet-vim.git'
 " 文件查找
@@ -449,7 +538,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 " dash文档查看
 Plugin 'rizzatti/dash.vim'
 " 语法提示
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
 Plugin 'majutsushi/tagbar'
 " markdown浏览器实时预览(需要node包)
 Plugin 'suan/vim-instant-markdown'
@@ -465,6 +554,8 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'groenewege/vim-less'
 " angular语法高亮
 Plugin 'burnettk/vim-angular'
+" reactjs
+Plugin 'mxw/vim-jsx'
 " js库语法高亮
 Plugin 'othree/javascript-libraries-syntax.vim'
 " 在行前显示删减行标识
@@ -474,11 +565,15 @@ Plugin 'Valloric/YouCompleteMe'
 " 自动对齐
 Plugin 'godlygeek/tabular'
 " js编辑支持
-Plugin 'ternjs/tern_for_vim'
-" ack搜索工具
-Plugin 'mileszs/ack.vim'
+" Plugin 'ternjs/tern_for_vim'
+
 " 格式转换snake_case/Mixed_case/camelCase
 Plugin 'tpope/vim-abolish'
+" webapi
+Plugin 'mattn/webapi-vim'
+" jsdoc
+Plugin 'heavenshell/vim-jsdoc'
+"Plugin 'ashisha/image.vim'
 
 call vundle#end()
 "filetype plugin indent on    " required

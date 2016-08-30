@@ -1,4 +1,4 @@
-# vimer
+# vimer(一份个人vim配置文件)
 
 ## 安装
 
@@ -9,11 +9,11 @@
   - git clone https://github.com/wungqiang/vimer.git
   - mv ./vimer/vimrc ~/.vimrc && rm -rf ./vimer
 
-- 安装
+- 安装插件
   - 进入vim
   - 运行命令:PluginInstall
 
-## 一份个人vim配置文件, 主要包含:
+## 主要包含:
 
 - 快捷键设置
 
