@@ -1,6 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""安装配置
-" repo: https://github.com/wungqiang/vimer.git
-"
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 安装配置.1
 " 1.安装vundle
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
@@ -12,20 +10,8 @@
 " 进入vim
 " 运行命令:PluginInstall
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""设置快捷键
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 设置快捷键.2
 let mapleader=","
-
-"map <Leader>n <Esc>:tabnew<CR>
-" 窗口切换捷键
-nmap <Leader>h <C-w>h
-nmap <Leader>j <C-w>j
-nmap <Leader>k <C-w>k
-nmap <Leader>l <C-w>l
-
-" 当前行下加入新行然后回到normal模式
-"nmap oo o<ESC>k
-" 当前行上加入新行然后回到normal模式
-"nmap OO O<ESC>j
 
 " w!!不退出文件以root权限保存文件
 cmap w!! w !sudo tee % >/dev/null
@@ -39,84 +25,75 @@ vmap ,p "+p
 " 执行最后一个命令
 nnoremap :: @:
 
+" 切到左窗口
+nmap <Leader>h <C-w>h
+
+" 切到下窗口
+nmap <Leader>j <C-w>j
+
+" 切到上窗口
+nmap <Leader>k <C-w>k
+
+" 切到右窗口
+nmap <Leader>l <C-w>l
+
 " 切换到当前操作文件目录
 nnoremap <Leader><Leader>g :cd %:p:h <CR>
 
+" 保存并退出所有窗口
 nnoremap <Leader><Leader>q :wqa<CR>
 
-" 上下页
+" 取消高亮
+nnoremap <Leader><Leader><Enter> :noh<CR>
+
+" 上翻页
 nnoremap <Leader><Leader>k <C-b>
+
+" 下翻页
 nnoremap <Leader><Leader>j <C-f>
 
-" 上下半屏
+" 显示下面更多区域
 nnoremap <Leader><Leader>e <C-e>
+
+" 显示上面更多区域
 nnoremap <Leader><Leader>y <C-y>
 
-" 上下移动
-nnoremap <Leader><Leader>e <C-e>
-nnoremap <Leader><Leader>y <C-y>
-
-nnoremap <Leader><Leader>s :!open -a safari %<CR><CR>
-nnoremap <Leader><Leader>o :!open -a opera %<CR><CR>
-nnoremap <Leader><Leader>f :!open -a firefox %<CR><CR>
+" 快速打开chrome浏览器
 nnoremap <Leader><Leader>c :!open -a google\ chrome %<CR><CR>
 
 " 粘贴模式，粘贴时不自动indent
 nmap <silent> <leader>p :set paste<CR>"*p:set nopaste<CR>
-"set pastetoggle=<F2>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""基本设置
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 基本设置.3
+" compatible是为兼容vim的，如果设置了，vim一些扩展功能就会被关闭
+" 如果./.vimrc存在，nocompatible是默认开启的
+set nocompatible
+filetype on                                 " 检测文件类型，并触发FileType事件
+set nu                                      " 显示行号
+set relativenumber                          " 显示相对行号
+set wrap                                    " 自动换行
+set linebreak                               " 折行使单词连续
+set textwidth=80                            " 文本宽度
+set colorcolumn=+1                          " 显示超过最大文本宽度边界线
+autocmd FileType html set foldmethod=indent " html 自动折叠
+"set noswapfile                              " 不使用swap临时文件，全部放到内存中，如果文件太大最好使用wap文件
+
 " 设置新建html模版
 autocmd BufNewFile  *.html   0r ~/.vim/templates/skeleton.html
 
-" 显示行号
-set nu
-
-" 如果行尾有空格，设置为可见，表示为$符号
+" 如果行尾有空格，设置为可见，表示为·符号
 set list
 set listchars=tab:>\ ,trail:$
-
-" 显示相对行号
-"set relativenumber
-
-" 自动换行
-set wrap
-" 折行使单词连续
-set linebreak
-set textwidth=80
-set colorcolumn=+1
 
 " 超过80个字符背景变为红色
 highlight OverLength ctermbg=red ctermfg=white guibg=#500000
 match OverLength /\%81v.\+/
 
-" 不使用swap临时文件，全部放到内存中，如果文件太大最好使用wap文件
-set noswapfile
-
-" 文件编码
-set encoding=utf-8
-set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
-
-"set formatoptions=qrn1
-"set formatoptions-=cro
-
-" 代码折叠
-"set foldmethod=manual
-" html 自动折叠
-autocmd FileType html set foldmethod=indent
+set encoding=utf-8                          " 终端显示文件编码
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936 " 文件写入编码
 
 "当打开vim且没有文件时自动打开NERDTree
 autocmd vimenter * if !argc() | NERDTree | endif
-
-" 适用7.3+: 设置undofile目录, 建议不使用,
-" 就让在默认当前目录下，不然会堆积undo目录大小
-" 要手动删除,如果记了会占用很大空间
-"if isdirectory($HOME . '/.vim/undo') == 0
-    ":silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
-"endif
-"set undodir=./.vimundo//
-"set undodir+=~/.vim/undo//
-"set undofile
 
 " 搜索设置，高亮，忽略大小写
 set hlsearch
@@ -125,21 +102,16 @@ set ignorecase
 " 关键字包含大写时完全匹配，关键字包含小写时忽略大小写
 set smartcase
 
-" 文本替换时默认开启g，如果替换时再加g会取消g效果
-set gdefault
+set gdefault " 文本替换时默认开启g，如果替换时再加g会取消g效果
+set autoread " 如果文件在其它地方修改，实时更新文件
 
-" 开始输入时即搜索，而不是在按回车时
-set incsearch
-set showmatch
+set incsearch " 开始输入时即搜索，而不是在按回车时
+"set showmatch
 
-" 如果文件在其它地方修改，实时更新文件
-set autoread
-
-" 缩进设置
-" 4个空格代替tab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+" 2个空格代替tab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set smarttab
 set expandtab
 
@@ -168,78 +140,68 @@ set backspace=indent,eol,start
 syntax enable
 syntax on
 
-" 检测文件类型，并触发FileType事件
-filetype on
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 插件.4
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-" compatible是为兼容vim的，如果设置了，vim一些扩展功能就会被关闭
-" 如果./.vimrc存在，nocompatible是默认开启的
-set nocompatible
+" 推荐
+Plugin 'VundleVim/Vundle.vim'                    " 使用vundle管理vundle插件(必需)
+Plugin 'L9'                                      " 一些实用工具
+Plugin 'pangloss/vim-javascript'                 " vim js缩进及语法支持
+Plugin 'maksimr/vim-jsbeautify'                  " 格式化js文件
+Plugin 'isruslan/vim-es6'                        " es6代码语法高亮
+Plugin 'bling/vim-airline'                       " 状态栏
+Plugin 'easymotion/vim-easymotion'               " 快速定位
+Plugin 'airblade/vim-gitgutter'                  " 在行前显示删减行标识
+Plugin 'scrooloose/nerdtree'                     " vim目录导航
+Plugin 'Xuyuanp/nerdtree-git-plugin'             " nerdtree显示文件git状态
+Plugin 'tpope/vim-fugitive'                      " vim git管理
+Plugin 'scrooloose/nerdcommenter'                " 快速注释
+Plugin 'git://github.com/tpope/vim-surround.git' " 加/减[({等
+Plugin 'Yggdroot/indentLine'                     " 显示缩进符号
+Plugin 'ervandew/supertab'                       " tab自动补全
+Plugin 'http://github.com/mattn/emmet-vim.git'   " 快速生成代码
+Plugin 'ctrlpvim/ctrlp.vim'                      " 查找文件
+Plugin 'scrooloose/syntastic'                    " 语法提示
+Plugin 'altercation/vim-colors-solarized'        " 主题配色
+Plugin 'tpope/vim-abolish'                       " 格式转换snake_case/Mixed_case/camelCase
+Plugin 'DrawIt'                                  " ascii线条图
+Plugin 'garbas/vim-snipmate'                     " 代码片段补全(和下面两个一起)
+Plugin 'MarcWeber/vim-addon-mw-utils'            " vim-snipmate依赖
+Plugin 'tomtom/tlib_vim'                         " vim-snipmate依赖
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""新文件标题
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
-""定义函数SetTitle，自动插入文件头 
-func SetTitle() 
-    "如果文件类型为.sh文件 
-    if &filetype == 'sh'
-        call setline(1,"\#!/bin/bash")
-        call append(line("."), "")
-    elseif &filetype == 'python'
-        call setline(1,"#!/usr/bin/env python")
-        call append(line("."),"# coding=utf-8")
-        call append(line(".")+1, "")
+Plugin 'godlygeek/tabular'                       " 自动对齐
+Plugin 'suan/vim-instant-markdown'               " markdown浏览器实时预览(需要instant-markdown-d包)
+Plugin 'tpope/vim-markdown'                      " markdown高亮
+Plugin 'moll/vim-node'                           " node
+Plugin 'heavenshell/vim-jsdoc'                   " jsdoc
+Plugin 'cakebaker/scss-syntax.vim'               " sass语法高亮
+Plugin 'groenewege/vim-less'                     " less语法高亮
+Plugin 'burnettk/vim-angular'                    " angular语法高亮
+Plugin 'mxw/vim-jsx'                             " reactjs
+Plugin 'othree/javascript-libraries-syntax.vim'  " js库语法高亮
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'       " 切换显示相对行号还是绝对行号
+Plugin 'ashisha/image.vim'                       " 图片显示为ascii图片
+Plugin 'alvan/vim-closetag'                      " 当输入>时自动关闭html标签
+Plugin 'Valloric/YouCompleteMe'                 " 自动补全
+Plugin 'majutsushi/tagbar'                       " tag查看
+Plugin 'ternjs/tern_for_vim'                     " vim js代码分析引擎(配合jsctags)
+Plugin 'ramitos/jsctags'                         " 配合tagbar生成代码tag(配合tabar)
 
-    elseif &filetype == 'ruby'
-        call setline(1,"#!/usr/bin/env ruby")
-        call append(line("."),"# encoding: utf-8")
-        call append(line(".")+1, "")
+call vundle#end()
+filetype plugin indent on " 根据侦测到的不同类型加载对应的插件
 
-"    elseif &filetype == 'mkd'
-"        call setline(1,"<head><meta charset=\"UTF-8\"></head>")
-    else
-        call setline(1, "/*************************************************************************") 
-        call append(line("."), "	> File Name: ".expand("%"))
-        call append(line(".")+1, "	> Author: ")
-        call append(line(".")+2, "	> Mail: ")
-        call append(line(".")+3, "	> Created Time: ".strftime("%c"))
-        call append(line(".")+4, " ************************************************************************/") 
-        call append(line(".")+5, "")
-    endif
-    if expand("%:e") == 'cpp'
-        call append(line(".")+6, "#include<iostream>")
-        call append(line(".")+7, "using namespace std;")
-        call append(line(".")+8, "")
-    endif
-    if &filetype == 'c'
-        call append(line(".")+6, "#include<stdio.h>")
-        call append(line(".")+7, "")
-    endif
-    if expand("%:e") == 'h'
-        call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
-        call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
-        call append(line(".")+8, "#endif")
-    endif
-    if &filetype == 'java'
-        call append(line(".")+6,"public class ".expand("%:r"))
-        call append(line(".")+7,"")
-    endif
-    "新建文件后，自动定位到文件末尾
-endfunc
-autocmd BufNewFile * normal G
+" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 插件配置.5
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""插件配置
-" YouCompleteMe and UltiSnips compatibility, with the helper of supertab
-" (via http://stackoverflow.com/a/22253548/1626737)
-let g:SuperTabDefaultCompletionType    = '<C-n>'
-let g:SuperTabCrMapping                = 0
-let g:UltiSnipsExpandTrigger           = '<tab>'
-let g:UltiSnipsJumpForwardTrigger      = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger     = '<s-tab>'
-let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
-" JsDoc
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> vim-colors-solarized
+set background=dark
+colorscheme solarized
+
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JSDoc
 nmap <silent> <Leader><Leader>d <Plug>(jsdoc)
 
-" nerdtree-git-plugin
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> nerdtree-git-plugin
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "!",
     \ "Staged"    : "★",
@@ -252,18 +214,14 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-" tabular
-"if exists(":Tabularize")
-  "nmap <Leader>a= :Tabularize/=<CR>
-  "vmap <Leader>a= :Tabularize/=<CR>
-  "nmap <Leader>a: :Tabularize/:\zs<CR>
-  "vmap <Leader>a: :Tabularize/:\zs<CR>
-"endif
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> tabular
+" :Tabularize /:\zs
+" :Tabularize /:
 if exists(":Tabularize")
-    nmap <Leader>a= :Tabularize /=<CR>
-    vmap <Leader>a= :Tabularize /=<CR>
-    nmap <Leader>a: :Tabularize /:\zs<CR>
-    vmap <Leader>a: :Tabularize /:\zs<CR>
+    nmap <Leader>g= :Tabularize /=<CR>
+    vmap <Leader>g= :Tabularize /=<CR>
+    nmap <Leader>g: :Tabularize /:<CR>
+    vmap <Leader>g: :Tabularize /:<CR>
 endif
 
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
@@ -278,69 +236,35 @@ function! s:align()
   endif
 endfunction
 
-" ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> tagbar
+" let tagbar_left=1
+"let tagbar_width=40
+"let g:tagbar_compact=1
+"nmap <Leader><Leader>t :TagbarToggle<CR>
+"let g:tagbar_type_css = {
+    "\ 'ctagstype' : 'Css',
+    "\ 'kinds'     : [
+    "\ 'c:classes',
+    "\ 's:selectors',
+    "\ 'i:identities'
+    "\ ]
+"\ }
 
-" tagbar
-nmap <Leader><Leader>t :TagbarToggle<CR>
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> javascript-libraries-syntax
+let g:used_javascript_libs = 'jquery,requirejs,vue,d3,react'
 
-" tagbar css
-let g:tagbar_type_css = {
-    \ 'ctagstype' : 'Css',
-    \ 'kinds'     : [
-    \ 'c:classes',
-    \ 's:selectors',
-    \ 'i:identities'
-    \ ]
-\ }
-" javascript-libraries-syntax
-let g:used_javascript_libs = 'underscore,jquery,angularjs,angularui,requirejs'
-
-" jshint
-"let g:JSHintHighlightErrorLine = 0
-
-" vim-instant-markdown
-"let g:instant_markdown_slow=1
-"let g:instant_markdown_autostart=0
-
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-
-" syntastic-react
-"let g:syntastic_javascript_checkers = ['jsxhint']
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
-
-" tasklist
-let g:T_AUTHOR = "wq"
-let g:T_AUTHOR_EMAIL = "wq@tigerbrokers.com"
-let g:T_DATE_FORMAT = "%c"
-
-nnoremap <C-j> /<+.\{-1,}+><CR>c/+>/e<CR>
-inoremap <C-j> <ESC>/<+.\{-1,}+><CR>c/+>/e<CR>
-
-" NERDTree
-"设置NERDTree 边框栏大小
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> NERDTree
 "let g:NERDTreeWinPos="right"
 let g:NERDTreeWinSize = 40
-"map <C-n> :NERDTreeToggle<CR>
 map <Leader><Leader>n :NERDTreeToggle<CR>
  "在Visual和Normal模式下有效
 set mouse=nv
 
-" emmet
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> emmet
 let g:user_emmet_expandabbr_key = '<c-y>'
 let g:use_emmet_complete_tag = 1
 
-" jsbeautify
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> jsbeautify
 map <c-f> :call JsBeautify()<cr>
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
@@ -349,14 +273,15 @@ autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
 autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 
-" auto completion
+
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> autocompletion
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 
-" ctrlp
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ctrlp
 let g:ctrlp_map='<Leader><Leader>p'
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_custom_ignore = {
@@ -364,219 +289,38 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\.exe$\|\.so$\|\.dat$'
     \ }
 
-" vim-node
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> vim-node
 set runtimepath^=~/.vim/bundle/node
 autocmd User Node if &filetype == "javascript" | setlocal expandtab | endif
 
-"vim-javascript
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> vim-javascript
 let b:javascript_fold=1
 let javascript_enable_domhtmlcss=1
+let g:javascript_plugin_jsdoc = 1
 
-" vim-indent-guides
-" <Leader>ig
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=240
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=8
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> numbertoggle
+let g:NumberToggleTrigger="<F2>"
 
-" Python-mode
-" Activate rope
-" Keys:
-" K             Show python docs
-" <Ctrl-Space>  Rope autocomplete
-" <Ctrl-c>g     Rope goto definition
-" <Ctrl-c>d     Rope show documentation
-" <Ctrl-c>f     Rope find occurrences
-" <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
-" [[            Jump on previous class or function (normal, visual, operator modes)
-" ]]            Jump on next class or function (normal, visual, operator modes)
-" [M            Jump on previous class or method (normal, visual, operator modes)
-" ]M            Jump on next class or method (normal, visual, operator modes)
+" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_javascript_checkers = ['eslint']
+" ignore html file syntastic checking
+let g:syntastic_mode_map = { 'passive_filetypes': ['html'] }
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_style_error_symbol = '⁉️'
+let g:syntastic_warning_symbol = '⚠️'
+let g:syntastic_style_warning_symbol = '💩'
+highlight link SyntasticErrorSign SignColumn
+highlight link SyntasticWarningSign SignColumn
+highlight link SyntasticStyleErrorSign SignColumn
+highlight link SyntasticStyleWarningSign SignColumn
 
-let g:pymode_rope = 1
-let g:pymode_rope_autoimport = 0
-let g:pymode_rope_lookup_project = 0
-let g:pymode_rope_complete_on_dot = 0
-
-" Documentation
-let g:pymode_doc = 1
-let g:pymode_doc_key = 'K'
-
-"Linting
-let g:pymode_lint = 1
-let g:pymode_lint_checker = "pyflakes,pep8"
-" Auto check on save
-let g:pymode_lint_write = 1
-
-" Support virtualenv
-let g:pymode_virtualenv = 1
-
-" Enable breakpoints plugin
-let g:pymode_breakpoint = 1
-let g:pymode_breakpoint_bind = '<leader>b'
-
-" syntax highlighting
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 1
-let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-let g:pymode_syntax_space_errors = g:pymode_syntax_all
-
-" Don't autofold code
-let g:pymode_folding = 0
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""Vundle插件
-" eslint
-" npm install -g eslint
-" npm install -g babel-eslint
-" npm install -g eslint-plugin-react
-
-" syntastic-react
-" npm install -g syntastic-react
-" npm install -g jshint
-" npm install -g react-tools
-
-" 安装vundle
-"git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-" see :h vundle for more details or wiki for FAQ
-
-" format
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-
-
-" 设置vundle运行时目录
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" 使用vundle管理vundle插件(必需)
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'L9'
-
-" Syntax
-" Plugin 'asciidoc.vim'
-" Plugin 'confluencewiki.vim'
-" Plugin 'othree/html5.vim'
-" Plugin 'JavaScript-syntax'
-" Plugin 'moin.vim'
-" Plugin 'python.vim--Vasiliev'
-" Plugin 'xml.vim'
-
-" Color
-" Plugin 'desert256.vim'
-" Plugin 'Impact'
-" Plugin 'vibrantink'
-" Plugin 'vividchalk.vim'
-
-" python
-Bundle 'klen/python-mode'
-Plugin 'python_fold'
-
-" Plugin 'IndentAnything'
-" Plugin 'Javascript-Indentation'
-" Plugin 'mako.vim--Torborg'
-" Plugin 'gg/python.vim'
-" Plugin 'AutoClose--Alves'
-" Plugin 'auto_mkdir'
-" Plugin 'cecutil'
-" Plugin 'FencView.vim'
-" Plugin 'jsbeautify'
-" Plugin 'Mark'
-" Plugin 'matrix.vim'
-" Plugin 'mru.vim'
-" Plugin 'restart.vim'
- Plugin 'taglist.vim'
-" Plugin 'ZenCoding.vim'
-" Plugin 'css_color.vim'
-
-" Plugin 'wookiehangover/jshint.vim'
-" Plugin 'pangloss/vim-javascript'
- Plugin 'maksimr/vim-jsbeautify'
-" Plugin 'nono/jquery.vim'
-
-" SnipMate
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-
-" 快速代码片段:
-Plugin 'honza/vim-snippets'
-
-" Plugin 'digitaltoad/vim-jade.git'
-" Plugin 'nathanaelkane/vim-indent-guides'
-
-" 平时常用
-" 状态栏
-Plugin 'bling/vim-airline'
-" vim目录导航
-"Plugin 'The-NERD-tree'
-Plugin 'scrooloose/nerdtree'
-" nerdtree git status
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'scrooloose/nerdcommenter'
-" tab自动被全
-Plugin 'ervandew/supertab'
-" 加、减代码引用'/"/[]/{}/<tab>
-Plugin 'git://github.com/tpope/vim-surround.git'
-" 快速定位
-Plugin 'easymotion/vim-easymotion'
-" 快速代码编写
-Plugin 'http://github.com/mattn/emmet-vim.git'
-" 文件查找
-Plugin 'ctrlpvim/ctrlp.vim'
-" dash文档查看
-Plugin 'rizzatti/dash.vim'
-" 语法提示
-" Plugin 'scrooloose/syntastic'
-Plugin 'majutsushi/tagbar'
-" markdown浏览器实时预览(需要node包)
-Plugin 'suan/vim-instant-markdown'
-" markdown高亮
-Plugin 'tpope/vim-markdown'
-" node
-Plugin 'moll/vim-node'
-" only necessary if your Vim version < 7.4
-Plugin 'JulesWang/css.vim'
-" sass语法高亮
-Plugin 'cakebaker/scss-syntax.vim'
-" less语法高亮
-Plugin 'groenewege/vim-less'
-" angular语法高亮
-Plugin 'burnettk/vim-angular'
-" reactjs
-Plugin 'mxw/vim-jsx'
-" js库语法高亮
-Plugin 'othree/javascript-libraries-syntax.vim'
-" 在行前显示删减行标识
-Plugin 'airblade/vim-gitgutter'
-" 自动补全
-Plugin 'Valloric/YouCompleteMe'
-" 自动对齐
-Plugin 'godlygeek/tabular'
-" js编辑支持
-" Plugin 'ternjs/tern_for_vim'
-
-" 格式转换snake_case/Mixed_case/camelCase
-Plugin 'tpope/vim-abolish'
-" webapi
-Plugin 'mattn/webapi-vim'
-" jsdoc
-Plugin 'heavenshell/vim-jsdoc'
-"Plugin 'ashisha/image.vim'
-
-call vundle#end()
-"filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-filetype off                  " required
+"nnoremap <C-j> /<+.\{-1,}+><CR>c/+>/e<CR>
+"inoremap <C-j> <ESC>/<+.\{-1,}+><CR>c/+>/e<CR>
