@@ -12,6 +12,18 @@
 - 安装插件
   - 进入vim
   - 运行命令:PluginInstall
+  - cd ~/.vim/bundle/YouCompleteMe && python install.py --all
+
+  ```
+  # 单独安装语言补全
+  $ python install.py --ts-completer
+
+  # --ts-completer [Node & Npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+  # --rust-completer [Rust](https://www.rust-lang.org/)
+  # --java-completer [JDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+  # --go-completer [Go](https://golang.org/doc/install)
+  # --cs-completer [Mono macOD](https://www.mono-project.com/docs/getting-started/install/mac/)
+  ```
 
 
 ## ISSUES:
@@ -24,6 +36,16 @@ answer:
 Ubuntu and derivatives: ```sudo apt-get install exuberant-ctags```
 
 With yum: ```sudo yum install ctags-etags```
+
+2.YouCopleteMe: ERROR: Unable to find executable 'cmake'. CMake is required to build ycmd
+
+answer:
+```brew install cmake```
+
+3.YouCompleteMe[issue](https://github.com/ycm-core/YouCompleteMe/issues/3271)
+
+answer(replace system vim):
+```brew install vim```
 
 ## 主要包含:
 
