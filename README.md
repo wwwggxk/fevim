@@ -62,7 +62,7 @@ Plugin 'Chiel92/vim-autoformat'                  "p218 格式化
 Plugin 'RRethy/vim-illuminate'                   "p219 高亮显示光标所在的词
 
 " 编程语法
-Plugin 'iamcco/markdown-preview.vim'             "p300 markdown浏览器实时预览
+Plugin 'iamcco/markdown-preview.nvim'            "p300 markdown浏览器实时预览
 Plugin 'tpope/vim-markdown'                      "p301 markdown
 Plugin 'moll/vim-node'                           "p310 node
 Plugin 'heavenshell/vim-jsdoc'                   "p311 jsdoc

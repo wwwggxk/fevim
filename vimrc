@@ -179,7 +179,7 @@ Plugin 'git://github.com/tpope/vim-surround.git' "p202 加/减操作[({等
 Plugin 'terryma/vim-multiple-cursors'            "p203 多选操作
 Plugin 'DrawIt'                                  "p204 ascii线条图
 Plugin 'tpope/vim-abolish'                       "p205 格式转换snake_case/Mixed_case/camelCase
-Plugin 'godlygeek/tabular'                       "p206 自动对齐
+Plugin 'junegunn/vim-easy-align'                 "p206 对齐工具
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'       "p207 切换显示相对行号还是绝对行号
 Plugin 'scrooloose/nerdcommenter'                "p210 快速注释
 Plugin 'mattn/emmet-vim'                         "p211 快速生成代码
@@ -315,16 +315,6 @@ let g:NERDTreeGitStatusShowIgnored = 1
 " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> p109 mhinz/vim-startify
 "当打开vim且没有文件时自动打开Startify
 autocmd vimenter * if !argc() | Startify | endif
-
-" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> p206 godlygeek/tabular
-" :Tabularize /:\zs
-" :Tabularize /:
-" if exists(":Tabularize")
-    " nmap <Leader>g= :Tabularize /=<CR>
-    " vmap <Leader>g= :Tabularize /=<CR>
-    " nmap <Leader>g: :Tabularize /:<CR>
-    " vmap <Leader>g: :Tabularize /:<CR>
-" endif
 
 " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> p100 scrooloose/nerdtree
 "let g:NERDTreeWinPos="right"
